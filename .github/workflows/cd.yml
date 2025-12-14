@@ -1,0 +1,28 @@
+name: CD (Production Deployment)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prepare deployment directory
+        run: mkdir -p sites
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./sites
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
